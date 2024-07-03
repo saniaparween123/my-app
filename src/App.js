@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'; // Ensure this path is correct
+import './App.css';
 import WeatherApp from './WeatherApp';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
@@ -8,16 +8,16 @@ function App() {
     const [location, setLocation] = useState('');
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
-    const [showWeather, setShowWeather] = useState(true); // Initially show weather forecast
-    const [submissionMessage, setSubmissionMessage] = useState(''); // New state variable for submission message
+    const [showWeather, setShowWeather] = useState(true);
+    const [submissionMessage, setSubmissionMessage] = useState('');
     const [registeredUsers, setRegisteredUsers] = useState(() => {
         const storedUsers = localStorage.getItem('registeredUsers');
         return storedUsers ? JSON.parse(storedUsers) : [];
-    }); // State for storing registered users
+    });
     const [currentUser, setCurrentUser] = useState(() => {
         const storedUser = localStorage.getItem('currentUser');
         return storedUser ? JSON.parse(storedUser) : null;
-    }); // State for storing the current user
+    });
 
     useEffect(() => {
         localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
@@ -30,8 +30,7 @@ function App() {
     const handleSearch = () => {
         if (location.trim() !== '') {
             console.log('Location:', location);
-            setShowWeather(true); // Show weather forecast section
-            // Optionally, you can perform further actions with the location data
+            setShowWeather(true);
         } else {
             alert('Please enter a location');
         }
@@ -39,16 +38,16 @@ function App() {
 
     const toggleLogin = () => {
         setShowLogin(!showLogin);
-        setShowRegister(false); // Close register form if open
-        setShowWeather(false); // Hide weather forecast section
-        setSubmissionMessage(''); // Clear submission message
+        setShowRegister(false);
+        setShowWeather(false);
+        setSubmissionMessage('');
     };
 
     const toggleRegister = () => {
         setShowRegister(!showRegister);
-        setShowLogin(false); // Close login form if open
-        setShowWeather(false); // Hide weather forecast section
-        setSubmissionMessage(''); // Clear submission message
+        setShowLogin(false);
+        setShowWeather(false);
+        setSubmissionMessage('');
     };
 
     const handleLoginSubmit = (e) => {
@@ -59,9 +58,9 @@ function App() {
         const user = registeredUsers.find(user => user.username === username && user.password === password);
         if (user) {
             setCurrentUser({ ...user, favorites: user.favorites || [] });
-            setSubmissionMessage('Login successful!'); // Set submission message
-            setShowWeather(true); // Show weather forecast after login
-            setShowLogin(false); // Hide login form after successful login
+            setSubmissionMessage('Login successful!');
+            setShowWeather(true);
+            setShowLogin(false);
         } else {
             setSubmissionMessage('Invalid username or password');
         }
@@ -80,10 +79,16 @@ function App() {
         } else {
             const newUser = { fullname, email, username, password, favorites: [] };
             setRegisteredUsers([...registeredUsers, newUser]);
-            setSubmissionMessage('Registration successful!'); // Set submission message
-            setShowLogin(true); // Show login form after successful registration
-            setShowRegister(false); // Hide register form after successful registration
+            setSubmissionMessage('Registration successful!');
+            setShowLogin(true);
+            setShowRegister(false);
         }
+    };
+
+    const handleLogout = () => {
+        setCurrentUser(null);
+        setSubmissionMessage('Logged out successfully.');
+        setShowRegister(true); // Show the Register button again
     };
 
     const addFavorite = (location) => {
@@ -103,7 +108,11 @@ function App() {
                 <div className="logo">Weather App</div>
                 <nav>
                     <button id="loginBtn" onClick={toggleLogin}>Login</button>
-                    <button id="registerBtn" onClick={toggleRegister}>Register</button>
+                    {currentUser ? (
+                        <button id="logoutBtn" onClick={handleLogout}>Logout</button>
+                    ) : (
+                        <button id="registerBtn" onClick={toggleRegister}>Register</button>
+                    )}
                 </nav>
             </header>
             <main>

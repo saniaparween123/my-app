@@ -14,6 +14,9 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  max-width: 1200px; /* Adjust maximum width as needed */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 header {
@@ -35,7 +38,8 @@ nav {
 }
 
 #loginBtn,
-#registerBtn {
+#registerBtn,
+#logoutBtn { /* Common styles for login, register, and logout buttons */
   background-color: #ff8800;
   color: #fff;
   border: none;
@@ -43,11 +47,13 @@ nav {
   margin-left: 10px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 #loginBtn:hover,
-#registerBtn:hover {
-  background-color: #ff8800;
+#registerBtn:hover,
+#logoutBtn:hover { /* Hover styles for all buttons */
+  background-color: #e67300; /* Darker shade for hover */
 }
 
 main {
@@ -88,7 +94,8 @@ main {
   font-size: 16px;
 }
 
-.auth-form button[type="submit"] {
+.auth-form button[type="submit"],
+#logoutBtn { /* Styles specifically for logout button */
   background-color: #ff8800;
   color: #fff;
   border: none;
@@ -98,6 +105,39 @@ main {
   cursor: pointer;
 }
 
-.auth-form button[type="submit"]:hover {
-  background-color: #ff8800;
+.auth-form button[type="submit"]:hover,
+#logoutBtn:hover { /* Hover styles for logout button */
+  background-color: #e67300; /* Darker shade for hover */
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .App {
+    margin: 10px;
+  }
+
+  header {
+    padding: 10px;
+  }
+
+  .logo {
+    font-size: 1.3rem;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #loginBtn,
+  #registerBtn,
+  #logoutBtn {
+    margin: 10px 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo {
+    font-size: 1.2rem;
+  }
 }

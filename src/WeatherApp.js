@@ -18,7 +18,8 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
     const [hourlyForecast, setHourlyForecast] = useState([]);
     const [weeklyForecast, setWeeklyForecast] = useState([]);
     const [mapCenter, setMapCenter] = useState([51.505, -0.09]); // Default to London
-    const [favorites, setFavorites] = useState([]); // State to store favorite days
+    const [favorites, setFavorites] = useState([]);
+
     const apiKey = '488a32ab226ea5867be5d50d221198ed';
 
     useEffect(() => {
@@ -93,15 +94,13 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                 throw new Error('Failed to fetch weekly forecast');
             }
             const data = await response.json();
-
             // Initialize an object to store daily forecasts
             const dailyData = {};
-
             // Loop through the forecast list and group by day
             data.list.forEach(item => {
                 const date = new Date(item.dt * 1000);
                 const day = date.toLocaleDateString('en-US', { weekday: 'long' });
-                
+
                 // Check if this day already exists in dailyData
                 if (!dailyData[day]) {
                     dailyData[day] = {
@@ -113,10 +112,8 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                     };
                 }
             });
-
             // Convert dailyData object to an array of daily forecasts
             const weeklyData = Object.values(dailyData);
-
             return weeklyData;
         } catch (error) {
             throw error;
@@ -129,16 +126,16 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
             alert('Please log in to add favorites.');
             return;
         }
-    
+
         // Check if the day is already in favorites
-        const alreadyAdded = favorites.some(fav => fav.dt === day.dt && fav.city === day.city );
-    
+        const alreadyAdded = favorites.some(fav => fav.dt === day.dt && fav.city === day.city);
+
         if (alreadyAdded) {
             alert('This day is already in favorites.');
         } else {
             // Find the matching weekly forecast item
             const selectedDay = weeklyForecast.find(item => item.dt === day.dt && item.city === day.city);
-    
+
             if (selectedDay) {
                 // Add the day to favorites
                 setFavorites(prevFavorites => [
@@ -150,12 +147,10 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                         temp: selectedDay.main.temp // Include temperature
                     }
                 ]);
+                addFavorite({ dt: day.dt, city: day.city }); // Update parent component's state
             }
         }
     };
-    
-    
-    
 
     const renderHourlyForecast = () => {
         return (
@@ -197,6 +192,9 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                                         )}
                                     </React.Fragment>
                                 )}
+                                {!currentUser && (
+                                    <p>Login to add to favorites</p>
+                                )}
                             </div>
                         </div>
                     ))}
@@ -204,6 +202,7 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
             </div>
         );
     };
+    
     
     
 
@@ -218,7 +217,6 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                             <p>Temperature: {currentWeather.main.temp}°C</p>
                             <p>Weather: {currentWeather.weather[0].description}</p>
                             <p>Wind Speed: {currentWeather.wind.speed} m/s</p>
-                        
                         </div>
                         <div className="favorites">
                             <h3>Favorites</h3>
@@ -322,6 +320,3 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
 };
 
 export default WeatherApp;
-
-
-

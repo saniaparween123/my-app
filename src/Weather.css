@@ -93,6 +93,7 @@ aside {
 
 /* Favorites */
 .favorites {
+    width: 50%;
     background-color: #ff8800;
     padding: 15px;
     border-radius: 5px;
@@ -119,6 +120,20 @@ aside {
 }
 
 /* Responsive adjustments */
+@media (max-width: 1024px) {
+    .weather-app {
+        flex-direction: column;
+    }
+
+    main {
+        margin-right: 0; /* Remove margin on smaller screens */
+    }
+
+    aside {
+        width: 100%; /* Full width for sidebar on smaller screens */
+    }
+}
+
 @media (max-width: 768px) {
     .forecast-container {
         flex-direction: column;
