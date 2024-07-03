@@ -218,11 +218,7 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                             <p>Temperature: {currentWeather.main.temp}°C</p>
                             <p>Weather: {currentWeather.weather[0].description}</p>
                             <p>Wind Speed: {currentWeather.wind.speed} m/s</p>
-                            {currentUser && (
-                                <button onClick={() => addToFavorites(new Date())}>
-                                    Add to Favorites
-                                </button>
-                            )}
+                        
                         </div>
                         <div className="favorites">
                             <h3>Favorites</h3>
