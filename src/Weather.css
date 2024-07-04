@@ -43,8 +43,15 @@ aside {
     cursor: pointer;
 }
 
-#searchBtn:hover, .add-fav-but:hover {
+#searchBtn:hover, .add-fav-but:hover , .remove-fav-but:hover {
     background-color: #ac2574; /* Darker blue on hover */
+}
+
+.remove-fav-but{
+    font-size: 10px;
+    background-color: #fa0f98;
+    margin-left: 10px;
+    float: right;
 }
 
 
@@ -67,13 +74,13 @@ aside {
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
-.weather-row{
+/* .weather-row{
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    width: 60%;
-}
+    width: 80%;
+} */
 
 
 .hourly-item,
@@ -105,13 +112,18 @@ aside {
 
 /* Favorites */
 .favorites , .weather-details{
+    display: inline-block;
+    margin-left:10px ;
     height: 250px;
-    width: 43%;
+    width: 25%;
     background-color: rgb(226, 130, 185);
-    padding: 15px;
+    padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; 
 }
+
 
 .favorites h3 {
     margin-bottom: 10px;
@@ -132,6 +144,7 @@ aside {
     margin-top: 20px;
     margin-bottom: 20px; /* Adjust as needed */
 }
+
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {

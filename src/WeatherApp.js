@@ -30,10 +30,15 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
         }
     }, []);
 
+
     useEffect(() => {
-        // Save favorites to localStorage whenever favorites change
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-    }, [favorites]);
+        // Load favorites from localStorage if available
+        const storedFavorites = localStorage.getItem('favorites');
+        if (storedFavorites) {
+            setFavorites(JSON.parse(storedFavorites));
+        }
+    }, []);
+    
 
     const handleSearch = async () => {
         if (location.trim() !== '') {
@@ -126,32 +131,50 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
             alert('Please log in to add favorites.');
             return;
         }
-
+    
         // Check if the day is already in favorites
         const alreadyAdded = favorites.some(fav => fav.dt === day.dt && fav.city === day.city);
-
+    
         if (alreadyAdded) {
             alert('This day is already in favorites.');
         } else {
             // Find the matching weekly forecast item
             const selectedDay = weeklyForecast.find(item => item.dt === day.dt && item.city === day.city);
-
+    
             if (selectedDay) {
                 // Add the day to favorites
+                const newFavorite = {
+                    dt: day.dt,
+                    day: new Date(day.dt * 1000).toLocaleDateString('en-US', { weekday: 'long' }),
+                    city: day.city,
+                    temp: selectedDay.main.temp // Include temperature
+                };
+    
                 setFavorites(prevFavorites => [
                     ...prevFavorites,
-                    {
-                        dt: day.dt,
-                        day: new Date(day.dt * 1000).toLocaleDateString('en-US', { weekday: 'long' }),
-                        city: day.city,
-                        temp: selectedDay.main.temp // Include temperature
-                    }
+                    newFavorite
                 ]);
+    
+                // Update localStorage with updated favorites
+                localStorage.setItem('favorites', JSON.stringify([...favorites, newFavorite]));
+    
                 addFavorite({ dt: day.dt, city: day.city }); // Update parent component's state
             }
         }
     };
 
+    const removeFromFavorites = (favorite) => {
+        // Filter out the favorite to be removed
+        const updatedFavorites = favorites.filter(fav => !(fav.dt === favorite.dt && fav.city === favorite.city));
+    
+        setFavorites(updatedFavorites); // Update state with filtered favorites
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites)); // Update local storage
+    
+        // Optionally, you can also update the parent component's state if needed
+    };
+    
+    
+    
     const renderHourlyForecast = () => {
         return (
             <div className="forecast-section">
@@ -187,9 +210,7 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                                         <button className='add-fav-but' onClick={() => addToFavorites({ dt: item.dt, city: item.city })}>
                                             Add to Favorites
                                         </button>
-                                        {favorites.some(fav => fav.dt === item.dt && fav.city === item.city) && (
-                                            <p className="already-added" >Added to favorites</p>
-                                        )}
+                                        
                                     </React.Fragment>
                                 )}
                                 {!currentUser && (
@@ -218,24 +239,25 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                             <p>Weather: {currentWeather.weather[0].description}</p>
                             <p>Wind Speed: {currentWeather.wind.speed} m/s</p>
                         </div>
-                    <div className="favorites">
-                        <h3>Favorites</h3>
-                        {currentUser ? (
-                            <ul>
-                                {favorites.length > 0 ? (
-                                    favorites.map(fav => (
-                                        <li key={fav.dt}>
-                                            <p>{fav.day} - {fav.city}</p>
-                                        </li>
-                                    ))
-                                ) : (
-                                    <p>No favorites added yet.</p>
-                                )}
-                            </ul>
-                        ) : (
-                            <p>Please log in to add favorites.</p>
-                        )}
-                    </div>
+                        <div className="favorites">
+                            <h3>Favorites</h3>
+                            {currentUser ? (
+                                <ul>
+                                    {favorites.length > 0 ? (
+                                        favorites.map(fav => (
+                                            <li key={fav.dt}>
+                                                <span>{fav.day} - {fav.city}</span>
+                                                <button className="remove-fav-but" onClick={() => removeFromFavorites(fav)}>Del</button>
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <p>No favorites added yet.</p>
+                                    )}
+                                </ul>
+                            ) : (
+                                <p>Please log in to view favorites.</p>
+                            )}
+                        </div>
                     </div>
                     <div className="weather-map">
                         <img src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`} alt={currentWeather.weather[0].description} />
@@ -254,7 +276,9 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
         }
         return null;
     };
+    
 
+    
     // JavaScript for sliding effect
     useEffect(() => {
         const slideContainer = document.querySelector('.forecast-container');
@@ -320,3 +344,7 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
 };
 
 export default WeatherApp;
+
+
+
+

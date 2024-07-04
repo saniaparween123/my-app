@@ -102,6 +102,13 @@ function App() {
         }
     };
 
+    const handleBackToWeather = () => {
+        setShowWeather(true);
+        setShowLogin(false);
+        setShowRegister(false);
+        setSubmissionMessage('');
+    };
+
     return (
         <div className="App">
             <header>
@@ -121,8 +128,8 @@ function App() {
                     {showWeather && (
                         <WeatherApp addFavorite={addFavorite} currentUser={currentUser} />
                     )}
-                    {showLogin && <LoginForm onSubmit={handleLoginSubmit} />}
-                    {showRegister && <RegisterForm onSubmit={handleRegisterSubmit} />}
+                    {showLogin && <LoginForm onSubmit={handleLoginSubmit} onBack={handleBackToWeather} />}
+                    {showRegister && <RegisterForm onSubmit={handleRegisterSubmit} onBack={handleBackToWeather} />}
                 </section>
             </main>
         </div>

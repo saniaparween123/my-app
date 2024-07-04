@@ -82,6 +82,7 @@ main {
 .auth-form form {
   display: flex;
   flex-direction: column;
+  
 }
 
 .auth-form label {
@@ -111,8 +112,20 @@ main {
 }
 
 .auth-form button[type="submit"]:hover,
-#logoutBtn:hover { /* Hover styles for logout button */
+#logoutBtn:hover , .back:hover { /* Hover styles for logout button */
   background-color: #ac2574; /* Darker shade for hover */
+}
+
+.back {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  margin: 0 auto;
+  margin-top: 10px;
+  background-color: #ac2574;
+}
+.back:hover{
+  background-color: #bb6396;
 }
 
 /* Responsive Design */

@@ -1,9 +1,6 @@
-
-
-
 import React from 'react';
 
-function RegisterForm({ onSubmit }) {
+function RegisterForm({ onSubmit, onBack }) {
     return (
         <div className="auth-form">
             <h2>Register</h2>
@@ -18,6 +15,7 @@ function RegisterForm({ onSubmit }) {
                 <input type="password" id="password" name="password" required />
                 <button type="submit">Register</button>
             </form>
+            <button className="back" onClick={onBack}>Back to Weather App</button>
         </div>
     );
 }
