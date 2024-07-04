@@ -184,11 +184,11 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                                 <p>Wind Speed: {item.wind.speed} m/s</p>
                                 {currentUser && (
                                     <React.Fragment>
-                                        <button onClick={() => addToFavorites({ dt: item.dt, city: item.city })}>
+                                        <button className='add-fav-but' onClick={() => addToFavorites({ dt: item.dt, city: item.city })}>
                                             Add to Favorites
                                         </button>
                                         {favorites.some(fav => fav.dt === item.dt && fav.city === item.city) && (
-                                            <p className="already-added">Already added to favorites</p>
+                                            <p className="already-added" >Added to favorites</p>
                                         )}
                                     </React.Fragment>
                                 )}
@@ -218,24 +218,24 @@ const WeatherApp = ({ addFavorite, currentUser }) => {
                             <p>Weather: {currentWeather.weather[0].description}</p>
                             <p>Wind Speed: {currentWeather.wind.speed} m/s</p>
                         </div>
-                        <div className="favorites">
-                            <h3>Favorites</h3>
-                            {currentUser ? (
-                                <ul>
-                                    {favorites.length > 0 ? (
-                                        favorites.map(fav => (
-                                            <li key={fav.dt}>
-                                                <p>{fav.day} - {fav.city}</p>
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <p>No favorites added yet.</p>
-                                    )}
-                                </ul>
-                            ) : (
-                                <p>Please log in to add favorites.</p>
-                            )}
-                        </div>
+                    <div className="favorites">
+                        <h3>Favorites</h3>
+                        {currentUser ? (
+                            <ul>
+                                {favorites.length > 0 ? (
+                                    favorites.map(fav => (
+                                        <li key={fav.dt}>
+                                            <p>{fav.day} - {fav.city}</p>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <p>No favorites added yet.</p>
+                                )}
+                            </ul>
+                        ) : (
+                            <p>Please log in to add favorites.</p>
+                        )}
+                    </div>
                     </div>
                     <div className="weather-map">
                         <img src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`} alt={currentWeather.weather[0].description} />

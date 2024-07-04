@@ -4,10 +4,11 @@
 .weather-app {
     display: flex;
     justify-content: space-between;
-    background-color: #f7cc9c; /* Light gray background */
+    background-color: rgb(252, 195, 227); /* Light gray background */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    color: rgb(114, 0, 74);
 }
 
 main {
@@ -26,31 +27,33 @@ aside {
 
 #locationInput {
     padding: 10px;
-    width: 200px;
+    width: 50%;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
-#searchBtn {
-    padding: 10px 20px;
+#searchBtn,.add-fav-but {
+    padding: 10px 15px;
     font-size: 16px;
-    background-color: #ff8800; /* Blue button */
+    background-color: #fa0f98; /* Blue button */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
 }
 
-#searchBtn:hover {
-    background-color: #f1b775; /* Darker blue on hover */
+#searchBtn:hover, .add-fav-but:hover {
+    background-color: #ac2574; /* Darker blue on hover */
 }
+
 
 /* Weather sections */
 .forecast-section {
+    width: 80%;
     margin-bottom: 20px;
-    background-color: #ff8800;
-    padding: 15px;
+    background-color: rgb(226, 130, 185);
+    padding: 1%;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     overflow: hidden; /* Ensure content doesn't overflow */
@@ -64,13 +67,22 @@ aside {
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
+.weather-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 60%;
+}
+
+
 .hourly-item,
 .daily-forecast {
     flex: 0 0 auto; /* Fix item size */
-    width: calc(20% - 10px); /* Two items per row with spacing */
+    width: 25%; /* Two items per row with spacing */
     margin-right: 20px;
     padding: 10px;
-    background-color: #f7cc9c; /* Light background for items */
+    background-color:#e7a4cb; /* Light background for items */
     border-radius: 5px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
     scroll-snap-align: start; /* Align items */
@@ -92,9 +104,10 @@ aside {
 }
 
 /* Favorites */
-.favorites {
-    width: 50%;
-    background-color: #ff8800;
+.favorites , .weather-details{
+    height: 250px;
+    width: 43%;
+    background-color: rgb(226, 130, 185);
     padding: 15px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -115,6 +128,7 @@ aside {
 
 /* Map */
 .weather-map {
+    width: 82%;
     margin-top: 20px;
     margin-bottom: 20px; /* Adjust as needed */
 }
